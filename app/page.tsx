@@ -8,7 +8,11 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import List from './components/List';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import useCurrentUser from './hooks/useCurrentUser';
 export default function Home() {
+  const router = useRouter();
+
 
   const responsive = {
     superLargeDesktop: {
@@ -44,7 +48,7 @@ export default function Home() {
     <main className="flex flex-col items-center">
     
     <section className='w-screen h-full'>
-    <Zoom scale={0.4}>
+    <Zoom scale={0.4} infinite={true} arrows={false}>
          {slideImages.map((slideImage, index)=> (
             <div key={index}>
               <div style={{ ...divStyle, 'backgroundImage': `url(${slideImage.url})` }}>
@@ -57,7 +61,7 @@ export default function Home() {
         <p className='text-2xl font-bold '>Start Booking</p>
        <Button
       label='Book Now'
-      onClick={() => console.log('clicked')}
+      onClick={() => router.push('/booking')}
 
        />
 

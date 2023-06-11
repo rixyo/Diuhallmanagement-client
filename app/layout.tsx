@@ -1,5 +1,6 @@
 import MobileNav from './components/navbar/MobileNav'
 import NavigationBar from './components/navbar/page'
+import ToasterContext from './context/ToasterContext'
 import './globals.css'
 import { Inter } from 'next/font/google'
 
@@ -23,15 +24,10 @@ export default function RootLayout({
         <div className='mx-5 my-5 border-2'>
           <MobileNav />
           <NavigationBar />
-        
-          <div className='fixed'>
-
-          </div>
         </div>
-        <div className=''>
-
+      <ToasterContext/>
         {children}
-        </div>
+      
         </body>
     </html>
   )

@@ -1,9 +1,29 @@
-import React from 'react';
+"use client"
+import React, { useEffect } from 'react';
 import Image from 'next/image'
-import AuthForm from '../components/Authform';
+import AuthForm from '@/app/components/Authform';
+import {useRouter} from 'next/navigation';
+import { jwtRespone } from '@/app/studentdeshboard/page';
+import jwt from 'jsonwebtoken';
 
 
 const page:React.FC = () => {
+  const router=useRouter()
+  const token = typeof window !== 'undefined' ? localStorage?.getItem('token') : null;
+  useEffect(()=>{
+      
+       if(token) {
+          const decoded = jwt.decode(token) as jwtRespone;
+          if (decoded.exp * 1000 < Date.now()) {
+              localStorage.removeItem('token')
+              router.push("/auth")
+      }
+      else if(decoded.role==="STUDENT") {
+        router.refresh()
+          router.push("/studentdeshboard")
+      }
+  }
+    },[])
     const bgImageStyle = {
         backgroundImage: "url('/campus.jpg')",
         backgroundRepeat: 'no-repeat',

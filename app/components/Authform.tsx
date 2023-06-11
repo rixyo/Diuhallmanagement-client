@@ -1,9 +1,7 @@
 "use client"
-
 import React,{useCallback, useEffect, useState} from 'react';
-import {useForm,FieldValues,SubmitHandler} from 'react-hook-form'
+import {useForm,FieldValues,SubmitHandler, set} from 'react-hook-form'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { BsGoogle  } from 'react-icons/bs';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
@@ -35,19 +33,19 @@ const AuthForm:React.FC = () => {
     })
     //register/login
     const onSubmit:SubmitHandler<FieldValues> = (data) => {
-
-    
        if(variant === "Login"){
         setIsLoading(true)
+        axios.post("http://localhost:5000/auth/login",data).then((res)=>{
+            setIsLoading(false)
+            toast.success("Login Successfull")
+            localStorage.setItem("token",res.data)
+            router.push('/')
+        })
        }
      
       
          else if(variant === "Register"){
           try {
-          
-          
-         
-          
           const isWhitespace = /^(?=.*\s)/;
           if (isWhitespace.test(data.password)) {
             setIsLoading(false)
@@ -88,11 +86,16 @@ const AuthForm:React.FC = () => {
           throw new Error( "Password must be  minimam 6 Characters Long.")
         }
         else{
-        
           setError("")
           setIsLoading(true)
-  
-          axios.post('/api/register', data)
+          axios.post('http://localhost:5000/auth/signup/STUDENT', data).then(()=>{
+            setIsLoading(false)
+            toast.success("Account Created Successfully")
+            setVariant("Login")
+          }).catch((err)=>{
+            setIsLoading(false)
+            toast.error("Account Creation Failed")
+          })
         
          
         }
@@ -119,6 +122,7 @@ const AuthForm:React.FC = () => {
       },[passwordType,setPasswordType])
    
    const handleClick=()=>{
+    
 
    }
     

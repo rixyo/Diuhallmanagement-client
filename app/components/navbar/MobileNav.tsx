@@ -4,13 +4,81 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { Disclosure } from "@headlessui/react";
 import { AiOutlineHome } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
-import { MdOutlineLogin } from "react-icons/md";
-import { FaUniversity } from 'react-icons/fa';
-import {HiOutlineLocationMarker} from 'react-icons/hi';
-import { useRouter } from 'next/navigation';
+import { MdLogout,  MdPayment } from "react-icons/md";
+import { Tab } from './Rightpart/RightPart';
+import { GoHistory } from 'react-icons/go';
+import { TbBrandBooking } from 'react-icons/tb';
+import useCurrentUser from '@/app/hooks/useCurrentUser';
+import Item from '@/app/components/navbar/Rightpart/Item';
 
 const MobileNav = () => {
-    const router=useRouter()
+    const {data:user}=useCurrentUser()
+    const [selectedTab,setSelectedTab]=useState<string>('')
+    const AuthTabs:Tab[] = [{
+      title: 'Home',
+      href: '/',
+      icon:AiOutlineHome
+    },
+    {
+      title:"Profile",
+      href: '/studentdeshboard',
+      icon:CgProfile
+
+    },
+    {
+      title:"History",
+      href: '/',
+      icon:GoHistory
+    },
+    {
+      title:"Payment",
+      href: '/',
+      icon:MdPayment
+
+    },
+    {
+      title:"Book Room",
+      href: '/',
+      icon:TbBrandBooking
+
+    },
+    {
+      title: 'Logout',
+      href: '/',
+      icon:MdLogout
+    }
+  ]
+  const Tabs:Tab[] = [
+    {
+        title: 'Home',
+        href: '/'
+    },
+    {
+        title:"Hall Facilities",
+     
+        href: '/',
+    },
+    {
+        title: 'Location',
+ 
+        href: ''
+    },
+    {
+        title: 'Contact Us',
+    
+        href: '/'
+
+    },
+    {
+        title: 'Login/Signup',
+        href: '/Auth'
+                    
+    }
+
+   
+    
+  
+]
   
   return (
     <div className="block md:hidden mb-5">
@@ -22,28 +90,17 @@ const MobileNav = () => {
         />
       </Disclosure.Button>
       <div className="p-6 w-1/2 h-screen bg-gray-300 z-20 fixed top-0 -left-96 lg:left-0 lg:w-60  peer-focus:left-0 peer:transition ease-out delay-150 duration-200">
-        <div className='flex flex-col gap-5 '>
-        <div className='flex items-center'>
-            <AiOutlineHome className="inline-block w-6 h-6 mr-2" />
-            Home
-        </div>
-        <div className='flex items-center'>
-            <CgProfile className="inline-block w-6 h-6 mr-2" />
-          Profile
-            </div>
-        <div className='flex items-center'>
-          <FaUniversity className="inline-block w-6 h-6 mr-2" />
-            Hall Facilities
-        </div>
-        <div className='flex items-center'>
-            <HiOutlineLocationMarker className="inline-block w-6 h-6 mr-2" />
-         Location
-        </div>
-            <div className='flex items-center' onClick={()=>router.push("/Auth")}>
-            <MdOutlineLogin className="inline-block w-6 h-6 mr-2" />
-          Login/Signup
-            </div>
-      </div>
+        {user?.role==='STUDENT' && AuthTabs.map((tab, index) =>(
+          <>
+          <Item key={index} tab={tab} selectedTab={tab.title===selectedTab} setSelectedTab={setSelectedTab}/>
+          </>
+        ))}
+         {!user && Tabs.map((tab, index) =>(
+          <>
+          <Item key={index} tab={tab} selectedTab={tab.title===selectedTab} setSelectedTab={setSelectedTab}/>
+          </>
+        ))}
+     
         </div>
 
     </Disclosure>
