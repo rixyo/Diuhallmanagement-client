@@ -2,47 +2,17 @@
 import React, { useState } from 'react';
 import Item from './Item';
 import { User } from '@/app/type';
-
-
-
 export type Tab = {
     title: string;
     href?: string;
 
 }
+interface LeftPartProps {
+    user:User
+}
 
-
-const LeftPart:React.FC= () => {
-    const Tabs:Tab[] = [
-        {
-            title: 'Home',
-            href: '/'
-        },
-        {
-            title:"Hall Facilities",
-         
-            href: '#section1',
-        },
-        {
-            title: 'Location',
-     
-            href: '#section2'
-        },
-        {
-            title: 'Contact Us',
-        
-            href: '#section3',
-    
-        },
-        {
-            title: 'Login/Signup',
-            href: '/auth'
-                        
-        }
-
-       
-      
-    ]
+const AuthRightPart:React.FC<LeftPartProps> = ({user}) => {
+   
     const AuthTabs:Tab[] = [{
         title: 'Home',
         href: '/',
@@ -76,15 +46,14 @@ const LeftPart:React.FC= () => {
     return (
         <>
   
-{<div className="flex  w-full items-center justify-center" >
-            {Tabs.map((tab, index) =>
+{user && <div className="flex  w-full items-center justify-center" >
+            {AuthTabs.map((tab, index) =>
             <Item key={index} tab={tab}  selectedTab={tab.title===selectedTab} setSelectedTab={setSelectedTab}/>
              )}
         </div>
 }
-
         </>
 
     )
 }
-export default LeftPart;
+export default AuthRightPart;

@@ -1,12 +1,12 @@
 "use client"
-import React,{useCallback, useEffect, useState} from 'react';
+import React,{useCallback, useState} from 'react';
 import {useForm,FieldValues,SubmitHandler, set} from 'react-hook-form'
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 import Input from './Input';
 import Button from './Button';
+import Image from 'next/image';
 type Vairant="Login" | "Register"
 const AuthForm:React.FC = () => {
     const [variant, setVariant] = useState<Vairant>("Login")
@@ -35,11 +35,11 @@ const AuthForm:React.FC = () => {
     const onSubmit:SubmitHandler<FieldValues> = (data) => {
        if(variant === "Login"){
         setIsLoading(true)
-        axios.post("http://localhost:5000/auth/login",data).then((res)=>{
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`,data).then((res)=>{
             setIsLoading(false)
             toast.success("Login Successfull")
+            router.push('/studentdeshboard')
             localStorage.setItem("token",res.data)
-            router.push('/')
         })
        }
      
@@ -88,11 +88,11 @@ const AuthForm:React.FC = () => {
         else{
           setError("")
           setIsLoading(true)
-          axios.post('http://localhost:5000/auth/signup/STUDENT', data).then(()=>{
+          axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup/STUDENT`, data).then(()=>{
             setIsLoading(false)
             toast.success("Account Created Successfully")
             setVariant("Login")
-          }).catch((err)=>{
+          }).catch(()=>{
             setIsLoading(false)
             toast.error("Account Creation Failed")
           })
@@ -163,7 +163,8 @@ const AuthForm:React.FC = () => {
                     
                     />
                        {customError && <p className='text-red-500 text-sm my-2' >{customError}</p>}
-                      <div className='absolute hidden lg:block lg:-right-10 top-10 ' onClick={showPassword}>{passwordType==="password"?<AiOutlineEye className='text-2xl text-gray-400'/>:<AiOutlineEyeInvisible className='text-2xl text-gray-400'/>}</div>
+                       <div className='absolute hidden md:block md:-right-10 md:top-10 lg:mr-2 ' onClick={showPassword}>{passwordType==="password"?<Image src="/eye.png" width={20} height={20} className='text-2xl text-gray-400' alt={''}/>:
+                       <Image src="/hidden.png" width={20} height={20} className='text-2xl text-gray-400' alt={'icon'}/>}</div>
                     </div>
                     <div>
           <Button

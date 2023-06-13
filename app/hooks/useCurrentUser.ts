@@ -1,10 +1,10 @@
 import useSWR from 'swr';
-import fetcher from "@/app/libs/fetcher";
+import fetcher from "../libs/fetcher";
 import { User } from '../type';
 
 const useCurrentUser = () => {
 
-    const url=`http://localhost:5000/auth/me`;
+    const url=`${process.env.NEXT_PUBLIC_API_URL}/auth/me`;
  
     const { data, error, isLoading, mutate } = useSWR<User>(url, fetcher);
     return {

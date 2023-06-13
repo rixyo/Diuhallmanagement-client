@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 import useCurrentUser from '../hooks/useCurrentUser';
 const page:React.FC = () => {
     const {data:user}=useCurrentUser()
-    console.log(user)
+   // console.log(user)
     const [candidateImage,setImage]=useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const token = typeof window !== 'undefined' ? localStorage?.getItem('token') : null;

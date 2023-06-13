@@ -1,17 +1,18 @@
 "use client"
 import Image from 'next/image'
 import slideImages from './ImageData';
-import { Zoom } from 'react-slideshow-image';
+import { Zoom,Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 import Button from './components/Button';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import List from './components/List';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import useCurrentUser from './hooks/useCurrentUser';
+import { useRef } from 'react';
+import Footer from './components/Footer';
 export default function Home() {
   const router = useRouter();
+  const sectionRef = useRef(null);
 
 
   const responsive = {
@@ -47,15 +48,15 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center">
     
-    <section className='w-screen h-full'>
-    <Zoom scale={0.4} infinite={true} arrows={false}>
+    <section className='w-screen h-full p-5'>
+    <Slide  >
          {slideImages.map((slideImage, index)=> (
             <div key={index}>
-              <div style={{ ...divStyle, 'backgroundImage': `url(${slideImage.url})` }}>
+              <div style={{ ...divStyle, 'backgroundImage': `url(${slideImage?.url})` }}>
               </div>
             </div>
           ))} 
-        </Zoom>
+        </Slide>
       </section>
       <div className='flex mt-6 items-center p-5 gap-5'>
         <p className='text-2xl font-bold '>Start Booking</p>
@@ -71,84 +72,60 @@ export default function Home() {
 
 
       </section>
-        <p className=' mt-5 text-2xl font-bold'>Hall Facilities</p>
     
     
-      <div className='flex justify-around gap-10 items-center'>
+      <section className='' id='section1'>
+        <p className=' mt-5 text-2xl font-bold text-center'>Hall Facilities</p>
+        <div className='flex justify-around gap-10 items-center'>
       <Carousel responsive={responsive} arrows={false} infinite={true} autoPlay={true} autoPlaySpeed={2000} className=' w-screen p-5 '>
         <div className='flex flex-col p-5'>
           <p className='text-2xl font-bold'>Cost-Effective Living Option</p>
-       <List
-       label='One Bed per student shall be offered'
-/>
-<List
-        label='Full furnished rooms with beds & underbed drawers'
-/>
-<List
-        label='Studey Table & Chair'
-/>
+          <ul>
 
-<List
-        label='Uble light & LED, Fan'
-/>
+       <li> One Bed per student shall be offered</li>
+       <li>Full furnished rooms with beds & underbed drawers</li>
+       <li>Studey Table & Chair</li>
+       <li>Uble light & LED, Fan</li>
+       <li>Dustbin in each room</li>
+       <li>300 squire feet spacious room</li>
+          </ul>
 
-<List
-        label='Dustbin in each room'
-/>
-       <List
-        label='300 squire feet spacious room'
-/>
+
         
           
         </div>
         <div className='flex flex-col p-5'>
           <p className='text-2xl font-bold'>Electricity & Internet</p>
-          <List
-        label='Electircity Facility'
-/>
-<List
-        label='24/7 Generator Facility'
-/>
-<List
-        label='High speed Internet for each student'
-/>
-         
-          
+          <ul>
+
+          <li>Electircity Facility</li>
+          <li>24/7 Generator Facility</li>
+          <li>High speed Internet for each student</li>
+          </ul>
         </div>
         <div className='flex flex-col p-5'>
           <p className='text-2xl font-bold'>Self Help Amenities</p>
-          <List
-        label='Self Help Kitchen'
-/>
-<List
-        label='Self Help Laundry'
-/>
-<List
-        label='Self Help Gym'
-/>
-<List
-        label='Self Help Library'
-/>
-<List
-        label='Self Help Study Room'
-/>
-<List
-        label='Self Help Prayer Room'
-/>
-<List
-        label='Medical facility available with first aid/provided to sick Residents'
-/>
-<List
-        label='Doctor on call number(s) to be shared with the students'
-/>
+          <ul>
+
+          <li>Self Help Kitchen</li>
+          <li>Self Help Laundry</li>
+          <li>Self Help Gym</li>
+          <li>Self Help Library</li>
+          <li>Self Help Study Room</li>
+          <li>Self Help Prayer Room</li>
+          <li>Medical facility available with first aid/provided to sick Residents</li>
+          <li>Doctor on call number(s) to be shared with the students</li>
+          </ul>
+         
 
           
         </div>
         </Carousel>
-      </div>
+        </div>
+      </section>
       
     
-<div className='cursor-pointer'>
+<section className='cursor-pointer' id='section2' ref={sectionRef}>
   <p className='text-2xl font-bold text-center'>Location</p>
   <Link
   target='_blank'
@@ -157,15 +134,11 @@ export default function Home() {
     <p className='text-center text-blue-500'>Click here to see the location</p>
   </Link>
   <Image src='/location_map_diu1.png' alt='map' width={900} height={500} className='rounded-md'/>
-  </div>  
+  </section>  
+ <section id="section3" className='w-screen' ref={sectionRef}>
+  <Footer/>
 
-
-
-    
-  
-  
-
-
+ </section>
     </main>
   )
 }

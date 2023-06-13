@@ -1,12 +1,13 @@
 "use client"
 import React, { useCallback } from 'react';
-import { BsBank } from 'react-icons/bs';
-import { FaCreditCard } from 'react-icons/fa';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js'
 import useCurrentUser from '../hooks/useCurrentUser';
+import withAuth from '../hooks/WithAuth';
+import GridLoader from 'react-spinners/GridLoader';
+import Image from 'next/image'
 const page:React.FC = () => {
-    const {data:user}=useCurrentUser()
+    const {data:user,isLoading}=useCurrentUser()
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string)
     const token = typeof window !== 'undefined' ? localStorage?.getItem('token') : null;
     const  line_items = [
@@ -18,7 +19,7 @@ const page:React.FC = () => {
 
                
                 },
-                unit_amount: 2500 * 100 
+                unit_amount: 250 * 100, 
               },
               quantity: 1
             },
@@ -26,7 +27,7 @@ const page:React.FC = () => {
     ]
     
     const submit=useCallback(async()=>{
-        const {data} = await axios.post('http://localhost:5000/payment/create-payment-intent', {line_items}, {
+        const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/payment/create-payment-intent`, {line_items}, {
             headers:{
                 'Content-Type':'application/json',
                 Authorization: `Bearer ${token}` ,
@@ -38,20 +39,24 @@ const page:React.FC = () => {
         await stripe?.redirectToCheckout({sessionId: data.id})
 
     },[user?.name])
+    if (isLoading || !user) {
+        return <div className="flex items-center justify-center h-full">
+        <GridLoader color="#3B82F6" />
+        </div>
+      }
     
     return (
         <div className=''>
             <h1 className='text-2xl font-bold text-center'>Payment</h1>
-            <div className='flex gap-5 justify-center mt-5'>
-                <div className='w-auto cursor-pointer border-2 border-gray-300 p-5' onClick={submit}>
+            <div className='flex gap-10 justify-center items-center mt-5'>
+                <div className='w-auto cursor-pointer border-2 ' onClick={submit}>
+                  <Image src='/credit-card.png' width={100} height={100} alt='card' />
                   
-                    <FaCreditCard className='text-6xl text-center text-gray-900' title='card'/>
 
                 </div>
-                <div className='w-auto cursor-pointer border-2 border-gray-300 p-5'>
-                  
-                  <BsBank className='text-6xl text-center text-gray-900' title="bank"/>
-
+                <div className='w-auto cursor-pointer'>
+                <Image src='/bank.png' width={100} height={100} alt='card' />
+              
               </div>
           
 
@@ -59,4 +64,4 @@ const page:React.FC = () => {
         </div>
     )
 }
-export default page;
+export default withAuth( page);

@@ -2,26 +2,32 @@
 import React from 'react';
 import LeftPart from './Rightpart/RightPart';
 import Image from 'next/image'
-import Search from './Search';
-import { FaUserAlt } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
-import useCurrentUser from '@/app/hooks/useCurrentUser';
 import { User } from '@/app/type';
+import useSWR from 'swr';
+import fetcher from '@/app/libs/fetcher';
+import GridLoader from 'react-spinners/GridLoader';
+import AuthRightPart from './Rightpart/AuthRightPart';
 
 export default function NavigationBar() {
     const router=useRouter()
-    const {data:user}=useCurrentUser()
+    const url=`${process.env.NEXT_PUBLIC_API_URL}/auth/me`;
+ 
+    const { data:user, isLoading } = useSWR<User>(url, fetcher);
+ 
+ 
    
   return (
     <>
       <div className='hidden lg:block'>
         <div className='flex  border-2 border-gray-400 mt-2 rounded items-center gap-5'>
-    <Image src ='/logo.png' width={100} height={100} alt='logo' className='cursor-pointer'   onClick={()=>router.push('/')} />
-    <Search/>
-    <LeftPart user={user as User}/>
+    <Image src ='/logo.png' width={100} height={100} alt='logo' className='cursor-pointer' priority={false}   onClick={()=>router.push('/')} />
+   {user?<AuthRightPart user={user as User}/>:<LeftPart/>}
+
    {user?.role==="STUDENT" && 
    <div className='mx-5 cursor-pointer ' onClick={()=>router.push('/studentdeshboard')}>
-   <FaUserAlt className='w-5 h-5 text-gray-500 ' size={100}/>
+    <Image src ='/graduated.png' width={50} height={100} alt='logo' className='cursor-pointer' priority={false}   />
+
    
     </div>
    } 

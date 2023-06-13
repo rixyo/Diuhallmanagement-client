@@ -1,7 +1,7 @@
 import React,{useCallback} from 'react';
-import {CldUploadWidget,CldImage} from "next-cloudinary"
+import {CldUploadWidget} from "next-cloudinary"
 import Image from "next/image"
-import {TbPhotoPlus}from "react-icons/tb"
+//import {TbPhotoPlus}from "react-icons/tb"
 
 declare global {
     var cloudinary: any;
@@ -52,9 +52,7 @@ const ImageUpload:React.FC<FormImageUploadProps> = ({onChange,value,label}) => {
               mt-2
             "
           >
-            <TbPhotoPlus
-              size={20}
-            />
+         <Image src='/add-image.png' width={100} height={100} alt='add-image' />
             <div className="font-semibold text-lg">
             {label}
             </div>

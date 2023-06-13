@@ -4,7 +4,7 @@ import { Application } from '../type';
 
 const useApplicaionHistory = () => {
 
-    const url=`http://localhost:5000/application/history`;
+    const url=`${process.env.NEXT_PUBLIC_API_URL}/application/history`;
  
     const { data, error, isLoading, mutate } = useSWR<Application[]>(url, fetcher);
     return {
