@@ -22,7 +22,11 @@ export default function NavigationBar() {
       <div className='hidden lg:block'>
         <div className='flex  border-2 border-gray-400 mt-2 rounded items-center gap-5'>
     <Image src ='/logo.png' width={100} height={100} alt='logo' className='cursor-pointer' priority={false}   onClick={()=>router.push('/')} />
-   {user?<AuthRightPart user={user as User}/>:<LeftPart/>}
+
+   {!user && <LeftPart/>}
+   {user &&<AuthRightPart user={user as User}/>}
+
+
 
    {user?.role==="STUDENT" && 
    <div className='mx-5 cursor-pointer ' onClick={()=>router.push('/studentdeshboard')}>
