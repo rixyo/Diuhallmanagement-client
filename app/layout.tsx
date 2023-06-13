@@ -21,7 +21,7 @@ export default function RootLayout({
        
 
      
-        <div className='mx-5 my-5 border-2'>
+        <div className='mx-5 my-5'>
           <MobileNav />
           <NavigationBar />
         </div>

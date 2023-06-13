@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { User } from '@/app/type';
 import useSWR from 'swr';
 import fetcher from '@/app/libs/fetcher';
-import GridLoader from 'react-spinners/GridLoader';
 import AuthRightPart from './Rightpart/AuthRightPart';
 
 export default function NavigationBar() {
