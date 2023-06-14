@@ -56,7 +56,7 @@ const page:React.FC = () => {
             console.log(err)
         })
         
-      },[name,email,studentId,mobileNumber,guardianName,guardianNID,candidateImage])
+      },[name,email,studentId,mobileNumber,guardianName,guardianNID,candidateImage,guardianMobileNumber])
     
     return (
         <div className='w-full p-5 h-screen' >
