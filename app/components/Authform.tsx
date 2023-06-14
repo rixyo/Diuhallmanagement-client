@@ -40,6 +40,10 @@ const AuthForm:React.FC = () => {
             toast.success("Login Successfull")
             router.push('/studentdeshboard')
             localStorage.setItem("token",res.data)
+        }).catch(()=>{
+            setIsLoading(false)
+            toast.error("Login Failed")
+           
         })
        }
      
@@ -121,10 +125,7 @@ const AuthForm:React.FC = () => {
         setPasswordType("password")
       },[passwordType,setPasswordType])
    
-   const handleClick=()=>{
-    
-
-   }
+ 
     
     return (
         <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'> 
@@ -168,7 +169,7 @@ const AuthForm:React.FC = () => {
                     </div>
                     <div>
           <Button
-          onClick={handleClick}
+          onClick={()=>{}}
           label={variant}
           />
           </div>

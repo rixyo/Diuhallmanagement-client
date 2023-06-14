@@ -5,10 +5,10 @@ import ImageUpload from '../components/Imageupload';
 import Button from '../components/Button';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import useCurrentUser from '../hooks/useCurrentUser';
+import withAuth from '../hooks/WithAuth';
+
 const page:React.FC = () => {
-    const {data:user}=useCurrentUser()
-   // console.log(user)
+
     const [candidateImage,setImage]=useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const token = typeof window !== 'undefined' ? localStorage?.getItem('token') : null;
@@ -31,7 +31,7 @@ const page:React.FC = () => {
             setIsLoading(false)
             return toast.error("Please fill all the fields")
         }
-       await axios.post("http://localhost:5000/application",{ candidateImage,name,email,studentId,mobileNumber,guardianName,guardianNID},{
+       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/application`,{ candidateImage,name,email,studentId,mobileNumber,guardianName,guardianNID},{
             headers:{
                 "Content-Type":"application/json",
                 Authorization:`Bearer ${token}`
@@ -114,4 +114,4 @@ const page:React.FC = () => {
         </div>
     )
 }
-export default page;
+export default withAuth(page);
