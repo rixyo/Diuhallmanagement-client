@@ -17,7 +17,7 @@ const page:React.FC = () => {
      
             /> 
            <h2 className="mt-2 text-center text-3xl font-extrabold text-black tracking-tighter">
-             Signin to your account
+            Authentication Page
            </h2>
      
          </div>
