@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image'
 import slideImages from './ImageData';
-import { Zoom,Slide } from 'react-slideshow-image';
+import {Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 import Button from './components/Button';
 import Carousel from 'react-multi-carousel';

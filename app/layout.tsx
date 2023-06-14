@@ -2,7 +2,7 @@ import MobileNav from './components/navbar/MobileNav'
 import NavigationBar from './components/navbar/page'
 import ToasterContext from './context/ToasterContext'
 import './globals.css'
-import { Inter } from 'next/font/google'
+
 
 
 export const metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({
        
 
      
-        <div className='mx-5 my-5'>
+        <div className='mx-5 my-10 lg:my-5'>
           <MobileNav />
           <NavigationBar />
         </div>

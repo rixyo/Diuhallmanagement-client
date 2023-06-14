@@ -66,7 +66,7 @@ const MobileNav = () => {
     },
     {
         title: 'Login/Signup',
-        href: '/Auth'
+        href: '/auth'
                     
     }
 
@@ -76,7 +76,7 @@ const MobileNav = () => {
 ]
   
   return (
-    <div className="block md:hidden mb-5">
+    <div className="block md:hidden my-5 ">
  <Disclosure as="nav">
       <Disclosure.Button className="absolute top-4 left-2 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
       <Image src="/menu.png" alt='menu' width={20} height={20} />
