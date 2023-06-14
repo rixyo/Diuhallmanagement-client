@@ -10,10 +10,10 @@ import Image from 'next/image'
 const Footer:React.FC = () => {
     
     return(
-        <div className='bg-black mt-5 w-screen h-auto '>
+        <div className='bg-black mt-5 w-full h-auto '>
             <div className='flex justify-center flex-col items-center'>
 
-            <div className='flex '>
+            <div className='flex gap-5 items-center '>
             <div className='flex gap-6  items-center mt-10 cursor-pointer'>
                 <div className='bg-white p-2'>
 
@@ -31,7 +31,7 @@ const Footer:React.FC = () => {
              
 
             </div>
-            <div className='flex items-center mt-10 gap-5 cursor-pointer ml-60'>
+            <div className='flex items-center mt-10 gap-5 cursor-pointer '>
                 <Image src='/qs.jpg' width={100} height={100} alt="houselogic"/>
                 <Image src='/times1.jpg' width={100} height={100} alt="houselogic"/>
 
