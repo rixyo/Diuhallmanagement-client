@@ -39,7 +39,7 @@ const page:React.FC = () => {
             product_data: {
               name: user?.name,
             },
-            unit_amount: 250 * 100,
+            unit_amount: 2500 * 100,
           },
           quantity: 1,
         },
