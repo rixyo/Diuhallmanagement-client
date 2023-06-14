@@ -5,12 +5,16 @@ interface InputProps {
     type?: string;
     disabled?: boolean;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    label: string
 
   }
   
-  const Input: React.FC<InputProps> = ({ placeholder, value,  onChange, disabled }) => {
+  const Input: React.FC<InputProps> = ({ placeholder, value,  onChange, disabled , label}) => {
     return (
       <div className="w-full">
+          <label  className='block text-sm font-medium text-gray-700 leading-6'>
+                {label}
+            </label>
       
         <input
           disabled={disabled}
