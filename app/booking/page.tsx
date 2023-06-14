@@ -28,7 +28,7 @@ const page:React.FC = () => {
       const onSubmit = useCallback(async()=>{
         setIsLoading(true)
         if(candidateImage==="" || name==="" || email==="" || studentId==="" || mobileNumber==="" || guardianName==="" || guardianNID===""|| guardianMobileNumber===""){
-            console.log(name,email,studentId,mobileNumber,guardianName,guardianNID)
+            console.log(name,email,studentId,mobileNumber,guardianName,guardianNID,guardianMobileNumber)
             setIsLoading(false)
             return toast.error("Please fill all the fields")
         }
@@ -113,14 +113,13 @@ const page:React.FC = () => {
                   <Input
                 label='Guardian Mobile Number'
                 
-                value={guardianMobileNumber }
-                onChange={(e)=>setGuardianMobileNumber (e.target.value)}
+                value={guardianMobileNumber}
+                onChange={(e)=>setGuardianMobileNumber(e.target.value)}
                 placeholder='Guardian Mobile Number'
                 disabled={isLoading}
                 />
             </div>
-            <div className='mt-5'>
-
+            <div className='mt-2'>
             <Button
             label='Submit'
            onClick={onSubmit}
