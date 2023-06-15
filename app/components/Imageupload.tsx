@@ -10,17 +10,12 @@ type FormImageUploadProps = {
     value:string;
     onChange:(value:string)=>void;
     label:string;
-
-
-    
 };
 const ImageUpload:React.FC<FormImageUploadProps> = ({onChange,value,label}) => {
     const uploadPreset = "tw9uaoam"
     const handleUplaoad=useCallback((result:any)=>{
         onChange(result.info.secure_url)
-
     },[onChange])
-
     return (
         <CldUploadWidget 
       onUpload={handleUplaoad} 
@@ -66,6 +61,7 @@ const ImageUpload:React.FC<FormImageUploadProps> = ({onChange,value,label}) => {
                          width={140}
                          height={100}
                          src={value}
+                      
                      
                         alt="cover"
                         className='rounded-md object-cover'

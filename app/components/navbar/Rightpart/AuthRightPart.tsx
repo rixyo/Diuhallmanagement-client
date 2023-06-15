@@ -4,19 +4,21 @@ import Item from './Item';
 import { User } from '@/app/type';
 export type Tab = {
     title: string;
-    href?: string;
+    href: string;
 
 }
-interface LeftPartProps {
-    user:User
-}
 
-const AuthRightPart:React.FC<LeftPartProps> = ({user}) => {
+
+const AuthRightPart:React.FC = () => {
    
     const AuthTabs:Tab[] = [{
         title: 'Home',
         href: '/',
        
+      },
+      {
+        title:"Profile",
+        href: '/studentdeshboard',
       },
       {
         title:"History",
@@ -46,12 +48,12 @@ const AuthRightPart:React.FC<LeftPartProps> = ({user}) => {
     return (
         <>
   
-{user && <div className="flex  w-full items-center justify-center" >
+ <div className="flex  w-full items-center justify-center" >
             {AuthTabs.map((tab, index) =>
             <Item key={index} tab={tab}  selectedTab={tab.title===selectedTab} setSelectedTab={setSelectedTab}/>
              )}
         </div>
-}
+
         </>
 
     )

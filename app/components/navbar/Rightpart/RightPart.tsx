@@ -1,17 +1,10 @@
 "use client"
 import React, { useState } from 'react';
 import Item from './Item';
-import { User } from '@/app/type';
-
-
-
 export type Tab = {
     title: string;
     href?: string;
-
 }
-
-
 const LeftPart:React.FC= () => {
     const Tabs:Tab[] = [
         {
@@ -39,44 +32,13 @@ const LeftPart:React.FC= () => {
             href: '/auth'
                         
         }
-
-       
-      
-    ]
-    const AuthTabs:Tab[] = [{
-        title: 'Home',
-        href: '/',
-       
-      },
-      {
-        title:"History",
-        href: '/history',
-    
-      },
-      {
-        title:"Payment",
-        href: '/payment',
-  
-
-      },
-      {
-        title:"Book Room",
-        href: '/booking',
-       
-
-      },
-      {
-        title: 'Logout',
-        href: '/',
-    
-      }
     ]
     const [selectedTab,setSelectedTab]=useState<string>('')
     
     return (
         <>
   
-{<div className="flex  w-full items-center justify-center" >
+{<div className={`flex  w-full items-center justify-center`} >
             {Tabs.map((tab, index) =>
             <Item key={index} tab={tab}  selectedTab={tab.title===selectedTab} setSelectedTab={setSelectedTab}/>
              )}

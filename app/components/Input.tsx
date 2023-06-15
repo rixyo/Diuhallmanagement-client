@@ -6,7 +6,6 @@ import {
     FieldErrors,
   UseFormRegister
 } from 'react-hook-form'
-
 type InputProps = {
     id:string;
     label?:string;
@@ -16,11 +15,8 @@ type InputProps = {
     disabled?:boolean;
     register:UseFormRegister<FieldValues>
     errors:FieldErrors
-    
 };
-
 const Input:React.FC<InputProps> = ({label,id,type,required,register,errors,disabled}) => {
-    
     return(
         <div>
             <label htmlFor={id} className='block text-sm font-medium text-gray-700 leading-6'>

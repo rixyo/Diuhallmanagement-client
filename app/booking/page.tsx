@@ -6,33 +6,52 @@ import Button from '../components/Button';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import withAuth from '../hooks/WithAuth';
+import { redis } from '../libs/redis';
+interface FormData {
+    name: string;
+    email: string;
+    studentId: string;
+    mobileNumber: string;
+    guardianName: string;
+    guardianNID: string;
+    guardianMobileNumber: string;
+  }
+  
+  const initialState: FormData = {
+    name: '',
+    email: '',
+    studentId: '',
+    mobileNumber: '',
+    guardianName: '',
+    guardianNID: '',
+    guardianMobileNumber: '',
+  };
 
 const page:React.FC = () => {
-
+    const [formData, setFormData] = useState<FormData>(initialState);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: value,
+        }));
+      };
     const [candidateImage,setImage]=useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const token = typeof window !== 'undefined' ? localStorage?.getItem('token') : null;
-    const [name,setName]=useState<string>("")
-    const [email,setEmail]=useState<string>("")
-    const [studentId,setStudentId]=useState<string>("")
-    const [mobileNumber,setMobileNumber]=useState<string>("")
-    const [guardianName,setGuardianName]=useState<string>("")
-    const [guardianNID,setGuardianNid]=useState<string>("")
-    const [guardianMobileNumber ,setGuardianMobileNumber]=useState<string>("")
-
-
         const handleChange=(value:string)=>{
           setImage(value)
         
       }
+      const getToken=async()=>{
+       return await redis.get("token")
+       }
       const onSubmit = useCallback(async()=>{
         setIsLoading(true)
-        if(candidateImage==="" || name==="" || email==="" || studentId==="" || mobileNumber==="" || guardianName==="" || guardianNID===""|| guardianMobileNumber===""){
-            console.log(name,email,studentId,mobileNumber,guardianName,guardianNID,guardianMobileNumber)
-            setIsLoading(false)
-            return toast.error("Please fill all the fields")
-        }
-       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/application`,{ candidateImage,name,email,studentId,mobileNumber,guardianName,guardianNID, guardianMobileNumber},{
+        const token=await getToken()
+       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/application`,{ candidateImage,name:formData.name,
+        email:formData.email,studentId:formData.studentId,mobileNumber:formData.mobileNumber,guardianName:formData.guardianName,guardianNID:formData.guardianNID,
+         guardianMobileNumber:formData.guardianMobileNumber},{
             headers:{
                 "Content-Type":"application/json",
                 Authorization:`Bearer ${token}`
@@ -40,14 +59,16 @@ const page:React.FC = () => {
         }).then(()=>{
             setIsLoading(false)
             toast.success("Application submitted successfully")
-            setName("")
-            setEmail("")
-            setStudentId("")
-            setMobileNumber("")
-            setGuardianName("")
-            setGuardianNid("")
             setImage("")
-            setGuardianMobileNumber("")
+            formData.name=""
+            formData.email=""
+            formData.studentId=""
+            formData.mobileNumber=""
+            formData.guardianName=""
+            formData.guardianNID=""
+            formData.guardianMobileNumber=""
+            
+        
 
 
         }).catch((err)=>{
@@ -56,7 +77,7 @@ const page:React.FC = () => {
             console.log(err)
         })
         
-      },[name,email,studentId,mobileNumber,guardianName,guardianNID,candidateImage,guardianMobileNumber])
+      },[formData,candidateImage])
     
     return (
         <div className='w-full p-5 h-screen' >
@@ -69,52 +90,60 @@ const page:React.FC = () => {
             <div className='flex flex-col mt-10'>
                 <Input
                 label='Name'
-                value={name}
-                onChange={(e)=>setName(e.target.value)}
+                name='name'
+                onChange={handleInputChange}
+                value={formData.name}
                 placeholder='Name'
                 disabled={isLoading}
                 />
                    <Input
                 label='Email'
-                value={email}
-                onChange={(e)=>setEmail(e.target.value)}
+                name='email'
+                value={formData.email}
+                onChange={handleInputChange}
                 placeholder='Email'
                 disabled={isLoading}
                 />
                
                    <Input
                 label='Student ID'
-                value={studentId}
-                onChange={(e)=>setStudentId(e.target.value)}
+                name='studentId'
+                value={formData.studentId}
+                onChange={handleInputChange}
                 placeholder='Student ID'
                 disabled={isLoading}
                 />
                    <Input
                 label='Mobile Number'
-                value={mobileNumber}
-                onChange={(e)=>setMobileNumber(e.target.value)}
+                name='mobileNumber'
+                value={formData.mobileNumber}
+                onChange={handleInputChange}
                 placeholder='Mobile Number'
                 disabled={isLoading}
                 />
                     <Input
                 label='Guardian Name'
-                value={guardianName}
-                onChange={(e)=>setGuardianName(e.target.value)}
+                name='guardianName'
+                value={formData.guardianName}
+                onChange={handleInputChange}
                 placeholder='Guardian Name'
                 disabled={isLoading}
                 />
                   <Input
                 label='Guardian NID'
-                value={guardianNID}
-                onChange={(e)=>setGuardianNid(e.target.value)}
+                name='guardianNID'
+                value={formData.guardianNID}
+                onChange={handleInputChange}
                 placeholder='Guardian NID'
                 disabled={isLoading}
                 />
                   <Input
                 label='Guardian Mobile Number'
+                name='guardianMobileNumber'
+
                 
-                value={guardianMobileNumber}
-                onChange={(e)=>setGuardianMobileNumber(e.target.value)}
+                value={formData.guardianMobileNumber}
+                onChange={handleInputChange}
                 placeholder='Guardian Mobile Number'
                 disabled={isLoading}
                 />

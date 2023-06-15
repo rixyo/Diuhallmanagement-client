@@ -10,10 +10,12 @@ import withAuth from '../hooks/WithAuth';
 
 const page:React.FC = () => {
     const {data,isLoading}=useApplicationHistory()
-    if (isLoading || !data) {
-        return <div className="flex items-center justify-center h-full">
-        <GridLoader color="#3B82F6" />
-        </div>
+    if(isLoading){
+        return(
+            <div className='flex justify-center items-center w-full h-screen'>
+                <GridLoader color='#0d6efd' size={20} />
+            </div>
+        )
     }
 
     return (
@@ -24,4 +26,4 @@ const page:React.FC = () => {
         </div>
     )
 }
-export default withAuth( page);
+export default withAuth(page);

@@ -1,17 +1,24 @@
 "use client"
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js'
 import useCurrentUser from '../hooks/useCurrentUser';
 import withAuth from '../hooks/WithAuth';
 import GridLoader from 'react-spinners/GridLoader';
 import Image from 'next/image'
+import { toast } from 'react-hot-toast';
+import { redis } from '../libs/redis';
 const page:React.FC = () => {
     const {data:user,isLoading}=useCurrentUser()
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string)
-    const token = typeof window !== 'undefined' ? localStorage?.getItem('token') : null;
+ const getToken=async()=>{
+  return await redis.get("token")
+
+ }
     const submit = useCallback(async () => {
       try {
+        if(!user) return
+        const token=await getToken()
         const { data } = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/payment/create-payment-intent`,
           { line_items: getLineItems() },
@@ -26,30 +33,36 @@ const page:React.FC = () => {
         const stripe = await stripePromise;
         await stripe?.redirectToCheckout({ sessionId: data.id });
       } catch (error) {
-        // Handle the error, e.g., display an error message to the user
+        toast.error('Something went wrong');
+      
         console.error('Error:', error);
       }
-    }, [token]);
+    }, [user,getToken]);
     
     const getLineItems = () => { 
+   
       return [
-        {
-          price_data: {
-            currency: 'BDT',
-            product_data: {
-              name: user?.name,
-            },
-            unit_amount: 2500 * 100,
+      {
+        price_data: {
+          currency: 'BDT',
+          unit_amount: 2500 * 100,
+          product_data: {
+            name:user?.name,
+            description: 'Hall Fee',
+         
           },
-          quantity: 1,
         },
+        quantity: 1,
+      }
       ];
     };
-    if (isLoading || !user) {
-        return <div className="flex items-center justify-center h-full">
-        <GridLoader color="#3B82F6" />
-        </div>
-      }
+    if(isLoading){
+      return(
+          <div className='flex justify-center items-center w-full h-screen'>
+              <GridLoader color='#0d6efd' size={20} />
+          </div>
+      )
+  }
     
     return (
         <div className=''>

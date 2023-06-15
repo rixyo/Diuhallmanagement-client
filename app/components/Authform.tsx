@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Input from './Input';
 import Button from './Button';
 import Image from 'next/image';
+import { redis } from '../libs/redis';
 type Vairant="Login" | "Register"
 const AuthForm:React.FC = () => {
     const [variant, setVariant] = useState<Vairant>("Login")
@@ -14,6 +15,7 @@ const AuthForm:React.FC = () => {
     const [passwordType, setPasswordType] = useState<string>("password")
     const [customError,setError]=useState<string>("")
     const router = useRouter()
+   
 
   //toggle variant
     const toggleVariant = useCallback(() => {
@@ -32,14 +34,21 @@ const AuthForm:React.FC = () => {
         }
     })
     //register/login
-    const onSubmit:SubmitHandler<FieldValues> = (data) => {
+    const onSubmit:SubmitHandler<FieldValues> = async (data) => {
        if(variant === "Login"){
         setIsLoading(true)
-        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`,data).then((res)=>{
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`,data).then(async (res)=>{
             setIsLoading(false)
             toast.success("Login Successfull")
-            router.push('/studentdeshboard')
-            localStorage.setItem("token",res.data)
+           router.refresh()
+           router.push("/")
+           
+            const cashedToken = await redis.get("token")
+            if(!cashedToken){
+
+              await redis.set("token",res.data,{ex:60*60})
+            }
+           
         }).catch(()=>{
             setIsLoading(false)
             toast.error("Login Failed")

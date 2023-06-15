@@ -4,12 +4,8 @@ import Image from 'next/image'
 
 type HistoryFeedProps = {
     item:Application
-    
 };
-
 const HistoryFeed:React.FC<HistoryFeedProps> = ({item}) => {
-
-    
     return (
         <div className='flex flex-col items-center justify-center w-full h-full '>
             <div className='flex flex-col items-center border-2 border-gray-300 rounded p-10 mt-5'>
@@ -21,7 +17,7 @@ const HistoryFeed:React.FC<HistoryFeedProps> = ({item}) => {
                 <p className='text-xl font-bold'>Guardian Name: {item.guardianName}</p>
                 <p className='text-xl font-bold'>Guardian National Id: {item.guardianNID}</p>
                 <p className='text-xl font-bo'>Application Date: {item.created_at.split('T')[0]}</p>
-                <p className='font-bold text-xl'>Confrimation Status <span className='text-sky-400 underline'>Pendding</span></p>
+           
             </div>
 
         </div>
