@@ -68,7 +68,7 @@ const page:React.FC = () => {
         <div className=''>
             <h1 className='text-2xl font-bold text-center'>Payment</h1>
             <div className='flex gap-10 justify-center items-center mt-5'>
-                <div className='w-auto cursor-pointer border-2 ' onClick={submit}>
+                <div className='w-auto cursor-pointer' onClick={submit}>
                   <Image src='/credit-card.png' width={100} height={100} alt='card' />
                   
 
