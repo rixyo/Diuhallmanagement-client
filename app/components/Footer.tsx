@@ -6,7 +6,7 @@ const Footer:React.FC = () => {
         <div className='bg-black mt-5 w-full h-auto '>
             <div className='flex justify-center flex-col items-center'>
 
-            <div className='flex gap-5 items-center '>
+            <div className='sm:flex-col md:flex md:flex-row gap-5 items-center '>
             <div className='flex gap-6  items-center mt-10 cursor-pointer'>
                 <div className='bg-white p-2'>
 
@@ -38,7 +38,7 @@ const Footer:React.FC = () => {
                     <p className='text-white text-lg font-bold'>Contact</p>
                     <p className='text-white text-lg font-bold'>Help</p>
                 </div>
-                <div className='  mt-10 cursor-pointer'>
+                <div className='  mt-10 cursor-pointer p-5'>
                     <h1 className='text-white text-lg font-bold'>Contact Information</h1>
                     <div>
                     <p className='text-white text-lg font-bold'>Daffodil International University</p>
@@ -51,8 +51,8 @@ const Footer:React.FC = () => {
                     </div>
                   
                 </div>
-                <div className='mt-5 border-t-8 border-white border-dotted'>
-                    <h1 className='text-white text-lg font-bold'>Copyright © 2023 Daffodil International University. All Rights Reserved.</h1>
+                <div className='mt-5 border-t-8 border-white border-dotted p-3'>
+                    <h1 className='text-white text-lg font-bold text-center'>Copyright © 2023 Daffodil International University. All Rights Reserved.</h1>
                  
              
                 </div>
